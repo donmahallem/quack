@@ -1,5 +1,5 @@
 export class Butt {
     public test(): void {
-        console.log("yes");
+        const a = 2 * 2;
     }
 }
