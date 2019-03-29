@@ -4,7 +4,7 @@ interface ITest {
 }
 const getComponent = () => {
     return import(/* webpackChunkName: "pixijs" */ "pixi.js").then((PIXI) => {
-
+        const gamePortSize: number = 720;
         let type = "WebGL";
         if (!PIXI.utils.isWebGLSupported()) {
             type = "canvas";
@@ -13,6 +13,9 @@ const getComponent = () => {
         PIXI.utils.sayHello(type);
 
         const app = new PIXI.Application({ width: window.innerWidth, height: window.innerHeight });
+        const a = new PIXI.Container();
+        app.stage.addChild(a);
+        // app.renderer.resolution = 2;
         document.getElementsByTagName("game-root")[0]
             .appendChild(app.view);
         window.onresize = (event) => {
@@ -24,7 +27,15 @@ const getComponent = () => {
             app.view.style.height = windowHeight + "px";
             // this part adjusts the ratio:
             // console.log(w, h);
-            app.renderer.resize(windowWidth, windowHeight);
+            const offset = Math.abs((windowHeight - windowWidth) / 2);
+            if (windowWidth < windowHeight) {
+                app.renderer.resize(gamePortSize, windowHeight * gamePortSize / windowWidth);
+            } else {
+                app.renderer.resize(windowWidth * gamePortSize / windowHeight, gamePortSize);
+            }
+            const topOffset: number = app.renderer.height - 720;
+            const leftOffset: number = (app.renderer.width - 720) / 2;
+            a.position.set(leftOffset, topOffset);
         };
         PIXI.loader
             .add("./assets/test.jpg")
@@ -32,9 +43,10 @@ const getComponent = () => {
 
                 // Create the cat sprite
                 const cat = new PIXI.Sprite(PIXI.loader.resources["./assets/test.jpg"].texture);
-
+                cat.width = 720;
+                cat.height = 720;
                 // Add the cat to the stage
-                app.stage.addChild(cat);
+                a.addChild(cat);
             });
     }).catch((error) => "An error occurred while loading the component");
 };
