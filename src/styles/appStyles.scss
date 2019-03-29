@@ -1,0 +1,22 @@
+@import 'themeColors';
+$theme-font: verdana, sans-serif;
+
+body {
+  font: $theme-font;
+  background-color: $themeColor-Light;
+  h1, h2 {
+      color: $themeColor-Dark
+  }
+  game-root {
+    position: absolute;
+    top:0px;
+    bottom:0px;
+    right:0px;
+    left:0px;
+    canvas{
+        width:100%;
+        display:block;
+        height:100%;
+    }
+  }
+}
