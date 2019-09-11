@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 enum AssetList {
     TEST = "./assets/test.jpg",
 }
+
 export class QuackGame {
     private app: PIXI.Application;
     private rootContainer: PIXI.Container;
@@ -51,15 +52,18 @@ export class QuackGame {
         this.rootContainer.rotation += deltaTime / 1000.0;
     }
 
-    public loadAssets(): Promise<void> {
-        return new Promise((resolve, reject) => {
+    public loadAssets(): Promise<Partial<Record<string, PIXI.LoaderResource>>> {
+        return new Promise((resolve: (val: Partial<Record<string, PIXI.LoaderResource>>) => void,
+                            reject: (err: any) => void) => {
             const resourcePaths: string[] = Object.keys(AssetList)
                 .map((key: string) => {
                     return AssetList[key];
                 });
             this.pixiLoader
                 .add(resourcePaths)
-                .load(resolve);
+                .load((loader: PIXI.Loader, resources: Partial<Record<string, PIXI.LoaderResource>>) => {
+                    resolve(resources);
+                });
         });
     }
 
