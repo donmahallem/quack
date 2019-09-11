@@ -2,16 +2,19 @@ import * as PIXI from "pixi.js";
 enum AssetList {
     TEST = "./assets/test.jpg",
 }
+
 export class QuackGame {
     private app: PIXI.Application;
     private rootContainer: PIXI.Container;
     private lastTimestamp: number;
+    private pixiLoader: PIXI.Loader;
     constructor(private parent: HTMLElement, private gamePortSize: number = 720) {
         let type = "WebGL";
         if (!PIXI.utils.isWebGLSupported()) {
             type = "canvas";
         }
         PIXI.utils.sayHello(type);
+        this.pixiLoader = new PIXI.Loader();
     }
 
     public start(): void {
@@ -30,7 +33,7 @@ export class QuackGame {
     public startGame(): void {
 
         // Create the cat sprite
-        const cat = new PIXI.Sprite(PIXI.loader.resources[AssetList.TEST].texture);
+        const cat = new PIXI.Sprite(this.pixiLoader.resources[AssetList.TEST].texture);
         cat.width = 720;
         cat.height = 720;
         // Add the cat to the stage
@@ -49,15 +52,18 @@ export class QuackGame {
         this.rootContainer.rotation += deltaTime / 1000.0;
     }
 
-    public loadAssets(): Promise<void> {
-        return new Promise((resolve, reject) => {
+    public loadAssets(): Promise<Partial<Record<string, PIXI.LoaderResource>>> {
+        return new Promise((resolve: (val: Partial<Record<string, PIXI.LoaderResource>>) => void,
+                            reject: (err: any) => void) => {
             const resourcePaths: string[] = Object.keys(AssetList)
                 .map((key: string) => {
                     return AssetList[key];
                 });
-            PIXI.loader
+            this.pixiLoader
                 .add(resourcePaths)
-                .load(resolve);
+                .load((loader: PIXI.Loader, resources: Partial<Record<string, PIXI.LoaderResource>>) => {
+                    resolve(resources);
+                });
         });
     }
 
