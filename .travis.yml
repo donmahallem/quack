@@ -21,7 +21,7 @@ jobs:
   - stage: Publish on github pages
     node_js: stable
     script:
-    - npm run compodoc
+    - npm run build
     if: branch = master
     deploy:
       provider: pages
