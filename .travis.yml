@@ -15,11 +15,19 @@ script:
 - npm run test:$TEST_SUITE
 after_success:
 - ./coveralls_upload.sh
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  keep-history: true
-  local_dir: dist
-  on:
-    branch: master
+
+jobs:
+  include:
+  - stage: Publish on github pages
+    node_js: stable
+    script:
+    - npm run compodoc
+    if: branch = master
+    deploy:
+      provider: pages
+      skip_cleanup: true
+      github_token: $GITHUB_TOKEN
+      keep-history: true
+      local_dir: dist
+      on:
+        branch: master
