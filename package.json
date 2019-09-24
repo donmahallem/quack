@@ -33,6 +33,6 @@
     "webpack-dev-server": "~3.8.1"
   },
   "dependencies": {
-    "pixi.js": "~5.1.4"
+    "pixi.js": "~5.1.5"
   }
 }
