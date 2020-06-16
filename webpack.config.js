@@ -7,11 +7,13 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./src/pug/index.pug"
         }),
-        new CopyWebpackPlugin([{
-            from: './src/assets',
-            to: "./assets",
-            toType: "dir"
-        }])
+        new CopyWebpackPlugin({
+            patterns: [{
+                from: './src/assets',
+                to: "./assets",
+                toType: "dir"
+            }]
+        })
     ],
     module: {
         rules: [
