@@ -18,7 +18,7 @@
   "license": "ISC",
   "devDependencies": {
     "copy-webpack-plugin": "11.0.0",
-    "css-loader": "6.7.3",
+    "css-loader": "6.7.4",
     "html-webpack-plugin": "5.5.1",
     "node-sass": "8.0.0",
     "pug": "3.0.2",
