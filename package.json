@@ -19,7 +19,7 @@
   "devDependencies": {
     "copy-webpack-plugin": "14.0.0",
     "css-loader": "7.1.4",
-    "html-webpack-plugin": "5.6.6",
+    "html-webpack-plugin": "5.6.7",
     "node-sass": "9.0.0",
     "pug": "3.0.4",
     "pug-loader": "2.4.0",
